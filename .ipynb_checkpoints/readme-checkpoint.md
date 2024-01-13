@@ -1,6 +1,6 @@
-## 1. 利用xtts克隆声音，微调模型
+## 利用xtts克隆声音，微调模型
 
-### 1.1 将一些微信聊天语音文件转换为mp3格式
+### 将一些微信聊天语音文件转换为mp3格式
 借助silk-v3-decoder来批处理
 ```bash
 #!/bin/bash
@@ -17,7 +17,7 @@ done
 
 ```
 
-### 1.2 clone xtts库并安装依赖
+### clone xtts库并安装依赖
 python版本要>=3.9:
 ```bash
 conda create -n xtts python=3.10
@@ -34,7 +34,7 @@ conda activate xtts
 export https_proxy=http://127.0.0.1:7891 http_proxy=http://127.0.0.1:7891 all_proxy=socks5://127.0.0.1:7891
 ```
 
-### 1.3 下载whisper模型来处理audio数据
+### 下载whisper模型来处理audio数据
 
 faster_whisper默认下载到cache文件夹
 ```bash
@@ -68,19 +68,4 @@ from faster_whisper import WhisperModel
 device = "cuda" if torch.cuda.is_available() else "cpu" 
 print("Loading Whisper Model!")
 asr_model = WhisperModel("large-v2", device=device, compute_type="int8", local_files_only=True)
-```
-
-#### 1.3.1 在阿里云下使用faster-whisper
-
-阿里云下不能连接hugglingface hub来下载whisper模型，需要通过modelscope下载。因此fork了faster-whisper库并修改重新编译以支持modelscope模型下载。
-https://github.com/dorbodwolf/faster-whisper-modelscope
-基于此，在阿里云加载whisper的方法如下：
-```python
-# 加载whisper模型
-import torch
-from faster_whisper import WhisperModel
-# Loading Whisper
-device = "cuda" if torch.cuda.is_available() else "cpu" 
-print("Loading Whisper Model!")
-asr_model = WhisperModel("/mnt/workspace/.cache/modelscope/keepitsimple/faster-whisper-large-v3", device=device, compute_type="float16", local_files_only=True)
 ```
